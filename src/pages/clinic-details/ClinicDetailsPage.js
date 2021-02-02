@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const ClinicDetailsPage = () => {
   return (
     <Container>
-      <p>Hello</p>
     </Container>
   );
 }
