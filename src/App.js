@@ -1,16 +1,19 @@
-import React from "react";
-import "./index.css";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
+import './fonts.css';
 import ClinicDetailsPage from "./pages/clinic-details/ClinicDetailsPage";
 
 function App() {
+  const [area, setArea] = useState('תל אביב');
+  const [userName, setUserName] = useState('דינה מטבייב');
+
   return (
     <AppContainer>
       <Header>
-        <p>שם משתמש כלשהו</p>
+        <CurrentUser>{userName}</CurrentUser>
         <ClinicInfoGroup>
-          <p>מתחם חיסונים בתל אביב</p>
+  <ClinicName>דשבורד מתחמי חיסון אזור  {area}</ClinicName>
           <MaccabiIcon>M</MaccabiIcon>
         </ClinicInfoGroup>
       </Header>
@@ -22,6 +25,9 @@ function App() {
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
+  && {
+    font-family: 'Heebo', sans-serif;
+  }
 `;
 
 const Header = styled.div`
@@ -45,7 +51,17 @@ const MaccabiIcon = styled(Avatar)`
   && {
     height: 40px;
     width: 40px;
+    margin: 37px 40px 23px 20px;
   }
+`;
+
+const ClinicName = styled.div`
+  margin: 45px 0 28px 0;
+  font-size: 18px;
+`;
+
+const CurrentUser = styled.div`
+  margin: 50px 0 29px 40.5px;
 `;
 
 export default App;
