@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 
-const ClinicDetailsPage = () => {
+const Header = (props) => {
   return (
     <Container>
-        <CurrentUser>{userName}</CurrentUser>
+        <CurrentUser>{props.userName}</CurrentUser>
         <ClinicInfoGroup>
-          <ClinicName>דשבורד מתחמי חיסון אזור {area}</ClinicName>
+          <ClinicName>דשבורד מתחמי חיסון אזור {props.area}</ClinicName>
           <MaccabiIcon>M</MaccabiIcon>
         </ClinicInfoGroup>
     </Container>
@@ -48,4 +48,4 @@ const CurrentUser = styled.div`
   margin: 50px 0 29px 40.5px;
 `;
 
-export default ClinicDetailsPage;
+export default Header;
