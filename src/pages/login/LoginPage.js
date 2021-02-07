@@ -1,38 +1,69 @@
 // Import FirebaseAuth and firebase.
-import React from 'react';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase';
-import styled from 'styled-components';
+import React, { useEffect } from "react";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import firebase from "firebase";
+import styled from "styled-components";
 
-// Configure Firebase.
 const config = {
-  apiKey: 'AIzaSyAeue-AsYu76MMQlTOM-KlbYBlusW9c1FM',
-  authDomain: 'myproject-1234.firebaseapp.com',
-  // ...
+  apiKey: "AIzaSyCtkLFzQrG8RAYz--GK3CneSVt4NL_9IrQ",
+  authDomain: "vaccinet-9f0dc.firebaseapp.com",
 };
-firebase.initializeApp(config);
 
-// Configure FirebaseUI.
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
+
 const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/clinics',
-  // We will display Google and Facebook as auth providers.
+  signInSuccessUrl: "/clinics",
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false,
+    },
   ],
 };
 
 const LoginPage = () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      localStorage.setItem("user", user.email);
+    } else {
+      localStorage.removeItem("user");
+    }
+  });
+
   return (
-    <div>
-      <h1>My App</h1>
-      <p>Please sign-in:</p>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-    </div>
+    <Container>
+      <Header>
+        <h1>מכבי - חיסונט</h1>
+      </Header>
+      <p>נא להירשם בעזרת כתובת מייל וסיסמא</p>
+      <AuthBox uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+    </Container>
   );
-}
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  height: 100px;
+  width: 100%;
+  background-color: #3f51b5;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+`;
+
+const AuthBox = styled(StyledFirebaseAuth)`
+  width: 100%;
+  height: 15%;
+`;
 
 export default LoginPage;
