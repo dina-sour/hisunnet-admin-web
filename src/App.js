@@ -50,9 +50,11 @@ const App = () => {
 
 const AppContainer = styled.div`
   display: flex;
+  height: 100vh;
   flex-direction: column;
   && {
-    font-family: "Heebo", sans-serif;
+    font-family: "Heebo", sans-serif;  
+    height: 100vh;
   }
 `;
 
