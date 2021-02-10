@@ -124,6 +124,9 @@ const LoginField = styled(TextField)`
   & fieldset {
     border-radius: 100px;
   }
+  & label {
+    color: #525558;
+  }
 `;
 
 const ButtonGroup = styled.div`
