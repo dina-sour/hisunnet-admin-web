@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header';
 const ClinicsPage = (props) => {
   return (
     <Container>
-      <Header userName='דינה מטבייב' area='תל- אביב יפו'/>
+      <Header userName='דינה מטבייב' area='תל אביב'/>
     </Container>
   );
 }

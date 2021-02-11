@@ -1,21 +1,17 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, useHistory } from "react-router-dom";
 
 const ProtectedRoute = (props) => {
-    const 
-  return (
-    <Route 
-        {...rest}
-        render={(props) => {
-            if (props.isAuthenticated) {
-                return props.children;
-            } else {
-                return (
-                    <Redirect to={props.path}/>
-                )
+    const history = useHistory();
+
+    return (        
+        <Route path="/login">
+            { props.loggedIn === true 
+                ? props.children
+                : history.push('/login')
             }
-        }}
-  );
+        </Route>
+    );
 }
 
 export default ProtectedRoute;

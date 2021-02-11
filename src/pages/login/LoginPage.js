@@ -1,15 +1,11 @@
 // Import FirebaseAuth and firebase.
 import React, { useState, useEffect } from "react";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, TextField, Paper, Button } from "@material-ui/core";
-
-const config = {
-  apiKey: "AIzaSyCtkLFzQrG8RAYz--GK3CneSVt4NL_9IrQ",
-  authDomain: "vaccinet-9f0dc.firebaseapp.com",
-};
+import config from '../../configs/firebase-config.json';
+import { useHistory  } from 'react-router-dom';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
@@ -18,17 +14,23 @@ if (!firebase.apps.length) {
 const LoginPage = () => {
   const [loginFailed, setLoginFailed] = useState(false);
   const { control, handleSubmit } = useForm();
-  const [loginData, setLoginData] = useState({});
+  const history = useHistory();
 
   const onLoginSubmit = (data) => {
-    console.log(data);
+      const auth =  firebase.auth()
+      .signInWithEmailAndPassword(data.email, data.password);
+      history.push('clinics');
+      auth.catch((err) => {
+        console.log("unable to login!");
+        setLoginFailed(true);
+      });
   };
 
-  const loginField = (key, title) => {
+  const loginField = (key, title, type) => {
     return (
       <Controller
         name={key}
-        as={<LoginField variant="outlined" placeholder={title} />}
+        as={<LoginField variant="outlined" placeholder={title} type={type} />}
         control={control}
         defaultValue=""
         rules={{ required: true }}
@@ -44,13 +46,13 @@ const LoginPage = () => {
         <LoginBoxTitle>פרטי משתמש</LoginBoxTitle>
         <LoginForm>
           {loginField("email", "אימייל")}
-          {loginField("password", "מספר טלפון")}
+          {loginField("password", "סיסמה", "password")}
         </LoginForm>
         <ButtonGroup>
           <LoginButton onClick={handleSubmit(onLoginSubmit)} color="primary" variant="contained">
             כניסה
           </LoginButton>
-          <ForgorPasswordLink href='https://www.google.com/'>שכחתי סיסמא</ForgorPasswordLink>
+          <ForgorPasswordLink href='/clinics'>שכחתי סיסמה</ForgorPasswordLink>
         </ButtonGroup>
       </LoginBox>
     </Container>
