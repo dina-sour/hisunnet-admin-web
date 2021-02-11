@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, reset } from "react-hook-form";
 import { Avatar, TextField, Paper, Button } from "@material-ui/core";
 import config from '../../configs/firebase-config.json';
 import { useHistory  } from 'react-router-dom';
@@ -11,18 +11,31 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   const [loginFailed, setLoginFailed] = useState(false);
-  const { control, handleSubmit } = useForm();
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const { control, handleSubmit, reset } = useForm();
   const history = useHistory();
 
   const onLoginSubmit = (data) => {
       const auth =  firebase.auth()
       .signInWithEmailAndPassword(data.email, data.password);
-      history.push('clinics');
+      auth.then((res) => {
+        history.push(props.redirect);
+        console.log(res);
+      });
       auth.catch((err) => {
-        console.log("unable to login!");
+        console.log("unable to login!", err);
         setLoginFailed(true);
+        switch(err.code) {
+          case 'auth/user-disabled':
+            setLoginErrorMessage('המשתמש חסום');
+            break;
+          case 'auth/user-not-found':
+            setLoginErrorMessage('המשתמש אינו קיים במערכת');
+            break;
+        }
+        reset({});
       });
   };
 
@@ -49,10 +62,15 @@ const LoginPage = () => {
           {loginField("password", "סיסמה", "password")}
         </LoginForm>
         <ButtonGroup>
+          {
+            loginFailed
+            ? <LoginFailMessage>{loginErrorMessage}</LoginFailMessage>
+            : null
+          }
           <LoginButton onClick={handleSubmit(onLoginSubmit)} color="primary" variant="contained">
             כניסה
           </LoginButton>
-          <ForgorPasswordLink href='/clinics'>שכחתי סיסמה</ForgorPasswordLink>
+          <ForgotPasswordLink href='/clinics'>שכחתי סיסמה</ForgotPasswordLink>
         </ButtonGroup>
       </LoginBox>
     </Container>
@@ -154,7 +172,7 @@ const LoginButton = styled(Button)`
   }
 `;
 
-const ForgorPasswordLink = styled.a`
+const ForgotPasswordLink = styled.a`
   text-decoration: underline;
   height: 21px;
   color: #525558;
@@ -163,6 +181,12 @@ const ForgorPasswordLink = styled.a`
   letter-spacing: 0;
   line-height: 21px;
   margin-top: 51px;
+`;
+
+const LoginFailMessage = styled.div`
+  font-size: 12px;
+  color: red;
+  margin-bottom: 12px;
 `;
 
 export default LoginPage;

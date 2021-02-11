@@ -5,7 +5,7 @@ const ProtectedRoute = (props) => {
     const history = useHistory();
 
     return (        
-        <Route path="/login">
+        <Route path={props.path}>
             { props.loggedIn === true 
                 ? props.children
                 : history.push('/login')

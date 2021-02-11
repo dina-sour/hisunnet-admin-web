@@ -24,7 +24,7 @@ const App = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setLoggedIn(true);
-        console.log("This is the user: ", user);
+        console.log("This is the user: ", user.email);
       } else {
         setLoggedIn(false);
         console.log("There is no logged in user");
@@ -37,7 +37,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <Route path="/login">
-              <LoginPage />
+              <LoginPage redirect='/clinics'/>
             </Route>
             <ProtectedRoute loggedIn={loggedIn} path="/clinics">
               <ClinicsPage />
