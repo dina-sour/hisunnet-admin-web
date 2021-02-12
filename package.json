@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.6.2",
     "axios": "^0.21.1",
     "firebase": "^8.2.5",
+    "history": "^5.0.0",
     "jss": "^10.5.1",
     "jss-rtl": "^0.3.0",
     "mui-rtl-textfield": "^1.0.2",

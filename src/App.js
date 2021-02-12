@@ -9,7 +9,8 @@ import firebase from "firebase";
 import config from "./configs/firebase-config.json";
 import api from "./api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import { withRouter, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 //api.get()
 
@@ -29,6 +30,7 @@ const App = () => {
         console.log("This is the user: ", user.email);
       } else {
         setLoggedIn(false);
+        history.push("/login");
         console.log("There is no logged in user");
       }
     });
@@ -40,7 +42,6 @@ const App = () => {
       .signOut()
       .then(() => {
         setLoggedIn(false);
-        history.push('/login');
       })
       .catch((err) => {
         console.log(err);
@@ -48,8 +49,7 @@ const App = () => {
   };
 
   return (
-    <AppContainer>
-      <BrowserRouter>
+      <AppContainer>
         <Switch>
           <Route path="/login">
             <LoginPage redirect="/clinics" />
@@ -61,8 +61,7 @@ const App = () => {
             <ClinicDetailsPage />
           </Route>
         </Switch>
-      </BrowserRouter>
-    </AppContainer>
+      </AppContainer>
   );
 };
 
@@ -75,4 +74,4 @@ const AppContainer = styled.div`
   }
 `;
 
-export default withRouter(App);
+export default App;
