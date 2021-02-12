@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Accordion } from "@material-ui/core";
 
 const Header = (props) => {
   return (
@@ -17,7 +17,7 @@ const Header = (props) => {
 const Container = styled.div`
   height: 100px;
   width: 100%;
-  background-color: #0D47A1;
+  background-color: ${(props) => props.theme.header.background};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

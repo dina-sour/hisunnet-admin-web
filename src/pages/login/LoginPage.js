@@ -34,6 +34,12 @@ const LoginPage = (props) => {
           case 'auth/user-not-found':
             setLoginErrorMessage('המשתמש אינו קיים במערכת');
             break;
+          case 'auth/network-request-failed':
+            setLoginErrorMessage('שגיאת רשת');
+            break;
+          default: 
+          setLoginErrorMessage('קרתה שגיאה, נסו יותר מאוחר');
+            break;
         }
         reset({});
       });

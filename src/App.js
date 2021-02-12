@@ -10,8 +10,8 @@ import config from "./configs/firebase-config.json";
 import api from "./api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { useHistory } from "react-router-dom";
-import { createBrowserHistory } from "history";
-
+import Theme from "./Theme";
+import { ThemeStore } from "./contexts/ThemeStore";
 //api.get()
 
 if (!firebase.apps.length) {
@@ -49,6 +49,8 @@ const App = () => {
   };
 
   return (
+    <ThemeStore>
+      <Theme>
       <AppContainer>
         <Switch>
           <Route path="/login">
@@ -62,6 +64,8 @@ const App = () => {
           </Route>
         </Switch>
       </AppContainer>
+      </Theme>
+    </ThemeStore>
   );
 };
 
