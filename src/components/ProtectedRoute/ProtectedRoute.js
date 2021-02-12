@@ -1,17 +1,28 @@
-import React from 'react';
-import { Route, useHistory } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
-const ProtectedRoute = (props) => {
-    const history = useHistory();
-
-    return (        
-        <Route path={props.path}>
-            { props.loggedIn === true 
-                ? props.children
-                : history.push('/login')
-            }
-        </Route>
-    );
-}
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (props.loggedIn) {
+          return <Component {...props} />;
+        } else {
+          return (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {
+                  from: props.location,
+                },
+              }}
+            />
+          );
+        }
+      }}
+    />
+  );
+};
 
 export default ProtectedRoute;

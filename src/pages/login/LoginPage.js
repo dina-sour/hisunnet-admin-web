@@ -97,7 +97,8 @@ const MaccabiIcon = styled(Avatar)`
 const Title = styled.div`
   color: #141414;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
+  font-family: 'Heebo';
 `;
 
 const LoginBox = styled(Paper)`

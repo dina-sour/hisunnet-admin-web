@@ -17,6 +17,7 @@
     "react-firebaseui": "^4.1.0",
     "react-hook-form": "^6.15.1",
     "react-intl": "^5.12.2",
+    "react-protected-route-component": "^0.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "styled-components": "^5.2.1",

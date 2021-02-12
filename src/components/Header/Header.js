@@ -17,10 +17,11 @@ const Header = (props) => {
 const Container = styled.div`
   height: 100px;
   width: 100%;
-  background: #d6e2f1;
+  background-color: #0D47A1;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  color: white;
 `;
 
 const ClinicInfoGroup = styled.div`
