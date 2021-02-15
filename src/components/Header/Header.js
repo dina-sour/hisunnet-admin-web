@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Avatar, Accordion } from "@material-ui/core";
+import Clock from 'react-live-clock';
 
 const Header = (props) => {
   return (
     <Container>
         <CurrentUser>{props.userName}</CurrentUser>
         <ClinicInfoGroup>
-          <ClinicName>דשבורד מתחמי חיסון אזור {props.area}</ClinicName>
-          <MaccabiIcon>M</MaccabiIcon>
+          <ClinicName>מרפאה לחיסוני קורונה -  {props.area}</ClinicName>
+          <ClinicIcon />
+          <Clock format={'HH:MM'} ticking={true} timezone={'US/Pacific'} />
         </ClinicInfoGroup>
     </Container>
   );
@@ -27,16 +29,17 @@ const Container = styled.div`
 const ClinicInfoGroup = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   width: 357px;
 `;
 
-const MaccabiIcon = styled(Avatar)`
+const ClinicIcon = styled.svg`
   && {
     height: 40px;
     width: 40px;
     margin: 37px 40px 23px 20px;
+    background-image: url(${(props) => props.theme.clinicIcon});
   }
 `;
 
