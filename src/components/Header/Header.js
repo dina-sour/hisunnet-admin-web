@@ -1,20 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import { Avatar, Accordion, Divider, Button } from "@material-ui/core";
+import { IconButton, Divider, Button } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+
 import Clock from "react-live-clock";
 
 const Header = (props) => {
+
   return (
     <Container>
       <UserInfoGroup>
         <LiveClock ticking={true} />
         <GroupDivider orientation="vertical" />
-        <LogoutButton>התנתקות</LogoutButton>
+        <LogoutButton onClick={props.handleLogout}>התנתקות</LogoutButton>
         <GroupDivider orientation="vertical" />
         <CurrentUser>{props.userName}</CurrentUser>
-        <UserIcon />
       </UserInfoGroup>
       <ClinicInfoGroup>
+        <StyledIconButton onClick={props.handleClinicsMenu}>
+          {props.isMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </StyledIconButton>
         <ClinicName>מרפאה לחיסוני קורונה - {props.area}</ClinicName>
         <ClinicIcon />
       </ClinicInfoGroup>
@@ -33,12 +39,21 @@ const Container = styled.div`
 `;
 
 const ClinicInfoGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 357px;
-  margin-right: 50px;
+  && {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 357px;
+    margin-right: 70px;
+    background-color: ${(props) => props.theme.header.background};
+  }
+`;
+
+const StyledIconButton = styled(IconButton)`
+  && {
+    color: white;
+  }
 `;
 
 const ClinicIcon = styled.svg`
@@ -60,16 +75,18 @@ const GroupDivider = styled(Divider)`
 const ClinicName = styled.div`
   margin: 45px 0 28px 0;
   font-size: 18px;
+  direction: rtl;
 `;
 
 const UserInfoGroup = styled.div`
   display: flex;
   flex-direction: row;
   height: 45px;
-  width: 298px;
+  width: 253px;
   align-self: center;
   justify-content: space-between;
   align-items: center;
+  margin-left: 20px;
 `;
 
 const LiveClock = styled(Clock)`
@@ -78,6 +95,7 @@ const LiveClock = styled(Clock)`
   font-size: 14px;
   letter-spacing: 0;
   line-height: 21px;
+  font-weight: 200;
 `;
 
 const CurrentUser = styled.div`
@@ -89,13 +107,7 @@ const CurrentUser = styled.div`
   letter-spacing: 0;
   line-height: 21px;
   text-align: center;
-`;
-
-const UserIcon = styled(Avatar)`
-  height: 45px;
-  width: 45px;
-  border-radius: 100px;
-  background-color: white;
+  font-weight: 200;
 `;
 
 const LogoutButton = styled(Button)`
