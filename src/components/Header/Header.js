@@ -44,7 +44,7 @@ const ClinicInfoGroup = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    width: 357px;
+    width: 370px;
     margin-right: 70px;
     background-color: ${(props) => props.theme.header.background};
   }
@@ -53,6 +53,7 @@ const ClinicInfoGroup = styled.div`
 const StyledIconButton = styled(IconButton)`
   && {
     color: white;
+    align-self: center;
   }
 `;
 
@@ -73,7 +74,6 @@ const GroupDivider = styled(Divider)`
 `;
 
 const ClinicName = styled.div`
-  margin: 45px 0 28px 0;
   font-size: 18px;
   direction: rtl;
 `;
