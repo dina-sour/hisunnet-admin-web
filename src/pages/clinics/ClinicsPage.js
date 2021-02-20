@@ -4,11 +4,15 @@ import Header from "../../components/Header/Header";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 import ClinicMenuItem from "../../components/ClinicMenuItem/ClinicMenuItem";
 
 const ClinicsPage = (props) => {
   const history = useHistory();
   const [email, setEmail] = useState("");
+  const [area, setArea] = useState("תל אביב");
+  const [clinics, setClinics] = useState([{name: 'היכל שלמה', location: 'אייזק רמבה 7', address:'היי שלופ אני כתובת'}, 
+  {name: '2היכל שלמה', location: '2אייזק רמבה 7', address:"היי שלום אני כתובת2"}]);
   const [selectedClinic, setSelectedClinic] = useState();
 
   const getEmail = () => {
@@ -18,14 +22,8 @@ const ClinicsPage = (props) => {
     }
   };
 
-  const mounted = useRef();
   useEffect(() => {
-    if (!mounted.current) {
       getEmail();
-      mounted.current = true;
-    } else {
-      getEmail();
-    }
   });
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,11 +36,21 @@ const ClinicsPage = (props) => {
     setAnchorEl(null);
   };
 
+  const getAllClinics = () => {
+
+  };
+
+  const onClinicCheck = (clinicName) => {
+    console.log(clinicName);
+    console.log(selectedClinic);
+    setSelectedClinic(clinicName);
+  };
+
   return (
     <Container>
       <Header
         userName={email}
-        area="תל אביב"
+        area={area}
         handleLogout={props.handleLogout}
         isMenuOpen={Boolean(anchorEl)}
         handleClinicsMenu={handleClinicsMenu}
@@ -52,21 +60,19 @@ const ClinicsPage = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         keepMounted
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
       >
-        <ClinicMenuItem
-          clinicName= "מרפאה לחיסוני קורונה"
-          location= "היכל שלמה"
-          address="אייזק רמבה 7, תל אביב"
-          isChecked={false}
-        />
+        {
+          clinics.map(clinic => {
+            return <ClinicMenuItem
+            onClinicCheck={() => onClinicCheck(clinic.name)}
+            clinicName={clinic.name}
+            key={clinic.name}
+            location={clinic.location}
+            address={clinic.address}
+            checked={clinic.name===selectedClinic}
+          />
+          })
+        }
       </ClinicsMenu>
     </Container>
   );
@@ -81,7 +87,7 @@ const Container = styled.div`
 const ClinicsMenu = styled(Menu)`
   && {
     width: 357px;
-    margin-top: 25px;
+    margin-top: 70px;
   }
 `;
 

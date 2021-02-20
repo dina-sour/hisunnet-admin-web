@@ -37,6 +37,9 @@ const LoginPage = (props) => {
           case 'auth/network-request-failed':
             setLoginErrorMessage('שגיאת רשת');
             break;
+          case 'auth/wrong-password':
+            setLoginErrorMessage('הסיסמא שהקלדת אינה נכונה. אנא נסה שנית');
+            break;
           default: 
           setLoginErrorMessage('קרתה שגיאה, נסו יותר מאוחר');
             break;

@@ -53,7 +53,7 @@ const App = () => {
       <Theme>
       <AppContainer>
         <Switch>
-          <Route path="/login">
+          <Route exact path="/login">
             <LoginPage redirect="/clinics" />
           </Route>
           <ProtectedRoute path="/clinics">

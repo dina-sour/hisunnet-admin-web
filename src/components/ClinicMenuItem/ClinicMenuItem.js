@@ -1,21 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import CheckIcon from "@material-ui/icons/Check";
-import { MenuItem } from "@material-ui/core";
+import { MenuItem, Typography } from "@material-ui/core";
+import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 
-const ClinicMenuItem = (props) => {
+const ClinicMenuItem = React.forwardRef((props, ref) => {
   return (
-    <Container>
-      {props.isChecked ? <CheckIcon /> : null}
+    <Container onClick={props.onClinicCheck} ref={ref}>
       <Description>
         <Title>
-          {props.clinicName} - {props.location}
+          <Typography>{props.clinicName} - {props.location}</Typography>
         </Title>
         <Subtitle>{props.address}</Subtitle>
       </Description>
+      {props.checked ? <CheckIcon /> : null}
     </Container>
   );
-};
+});
 
 const Container = styled(MenuItem)`
   && {
@@ -24,6 +24,7 @@ const Container = styled(MenuItem)`
     justify-content: flex-start;
     width: 298px;
     direction: rtl;
+    padding: 20px;
   }
 `;
 
@@ -34,11 +35,19 @@ const Description = styled.div`
 
 const Title = styled.div`
   font-size: 16px;
+  font-weight: 500;
 `;
 
 const Subtitle = styled.div`
   font-size: 14px;
-  font-weight: 200px;
+  margin-left: auto;
+`;
+
+const CheckIcon = styled(CheckRoundedIcon)`
+  && {
+    color: ${(props) => props.theme.header.background};
+    margin-right: auto;
+  }
 `;
 
 export default ClinicMenuItem;

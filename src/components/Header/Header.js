@@ -3,17 +3,18 @@ import styled from "styled-components";
 import { IconButton, Divider, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-
 import Clock from "react-live-clock";
+import ExitToAppSharpIcon from "@material-ui/icons/ExitToAppSharp";
 
 const Header = (props) => {
-
   return (
     <Container>
       <UserInfoGroup>
         <LiveClock ticking={true} />
         <GroupDivider orientation="vertical" />
-        <LogoutButton onClick={props.handleLogout}>התנתקות</LogoutButton>
+        <LogoutButton endIcon={<ExitToAppSharpIcon />} onClick={props.handleLogout}>
+          התנתקות
+        </LogoutButton>
         <GroupDivider orientation="vertical" />
         <CurrentUser>{props.userName}</CurrentUser>
       </UserInfoGroup>
@@ -122,4 +123,5 @@ const LogoutButton = styled(Button)`
     font-weight: 250;
   }
 `;
+
 export default Header;
