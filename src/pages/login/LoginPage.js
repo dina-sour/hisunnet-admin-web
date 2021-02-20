@@ -91,7 +91,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #f9fafc;
+  background-color: ${(props) => props.theme.general.lightBackground};
   height: 100vh;
 `;
 
@@ -169,7 +169,7 @@ const ButtonGroup = styled.div`
 
 const LoginButton = styled(Button)`
   && {
-    background-color: #0d47a1;
+    background-color: ${(props) => props.theme.general.main};
     color: white;
     border-radius: 100px;
     height: 48px;
