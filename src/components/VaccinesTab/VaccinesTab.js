@@ -17,7 +17,7 @@ const VaccinesTab = (props) => {
           <NumberOfVaccines variant="h3">
             {props.remainingVaccines}
           </NumberOfVaccines>
-          <Typography>עודפי חיסונים</Typography>
+          <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
         </RemainingVaccines>
         <EditButton>עריכה</EditButton>
       </RemainingVaccinesGroup>
@@ -120,6 +120,13 @@ const StopAppointmentsButton = styled(Button)`
   &:hover {
     background-color: ${(props) => props.theme.general.main};
   }
+`;
+
+const RemainingVaccinesTitle = styled.div`
+  color:${(props) => props.theme.general.main};
+  font-family: Heebo;
+  font-size: 14px;
+  margin-top: 5px;
 `;
 
 export default VaccinesTab;
