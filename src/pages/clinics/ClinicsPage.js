@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../../components/Header/Header";
-import { IconButton, Menu } from "@material-ui/core";
+import { Menu } from "@material-ui/core";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -9,6 +9,7 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { Collapse } from "react-collapse";
 import ClinicMenuItem from "../../components/ClinicMenuItem/ClinicMenuItem";
 import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const ClinicsPage = (props) => {
   const history = useHistory();
@@ -102,10 +103,12 @@ const ClinicsPage = (props) => {
         <VaccineTabsTitle>מקבצי חיסונים</VaccineTabsTitle>
       </VaccineTabsTopBar>
       <Collapse isOpened={vaccineTabsOpen}>
-        <VaccineTabs>
-          <VaccinesTab 
-            remainingVaccines={225}
-          />
+        <VaccineTabs>   
+          <AddVaccinesButton onClick={() => console.log("hi")}>
+            <AddVaccinesIcon />
+            <AddVaccinesTitle>הוספת מקבץ חיסונים</AddVaccinesTitle>
+          </AddVaccinesButton>
+          <VaccinesTab remainingVaccines={225} />
         </VaccineTabs>
       </Collapse>
     </Container>
@@ -128,6 +131,7 @@ const ClinicsMenu = styled(Menu)`
 const VaccineTabs = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   padding: 5px 40px 10px 20px;
   background-color: ${(props) => props.theme.general.lightBackground};
 `;
@@ -137,7 +141,7 @@ const VaccineTabsTopBar = styled.div`
   display: flex;
   height: 70px;
   flex-direction: row;
-  box-shadow: 0 6px 6px -2px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 6px -2px rgba(0, 0, 0, 0.15);
   background-color: ${(props) => props.theme.general.lightBackground};
   align-items: center;
   padding: 0 40px 0 20px;
@@ -153,6 +157,35 @@ const VaccineTabsTitle = styled.div`
   font-weight: 500;
   letter-spacing: 0;
   line-height: 27px;
+`;
+
+const AddVaccinesButton = styled.div`
+  display: flex;
+  height: 201px;
+  width: 344px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #c3d1e2;
+  border: 1px dashed lightgray;
+  border-radius: 20px;
+  &:hover {
+    background-color: #ece7e7;
+    cursor: pointer;
+  }
+`;
+
+const AddVaccinesTitle = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: #525558;
+`;
+
+const AddVaccinesIcon = styled(AddCircleOutlineIcon)`
+  && {
+    height: 36px;
+    width: 36px;
+  }
 `;
 
 export default ClinicsPage;

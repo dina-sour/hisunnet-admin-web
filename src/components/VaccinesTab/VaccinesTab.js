@@ -6,7 +6,7 @@ const VaccinesTab = (props) => {
   return (
     <Container>
       <AppointmentsInfoGroup>
-        <Title>עודפי חיסונים</Title>
+        <Title>מספר תורים שנקבעו</Title>
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
         <DetailText>מ- 16:00 עד 18:00</DetailText>
@@ -17,9 +17,7 @@ const VaccinesTab = (props) => {
           <NumberOfVaccines variant="h3">
             {props.remainingVaccines}
           </NumberOfVaccines>
-          <Typography>
-              עודפי חיסונים
-          </Typography>
+          <Typography>עודפי חיסונים</Typography>
         </RemainingVaccines>
         <EditButton>עריכה</EditButton>
       </RemainingVaccinesGroup>
@@ -35,6 +33,7 @@ const Container = styled(Paper)`
     width: 344px;
     margin-left: auto;
     justify-content: space-between;
+    margin: 0 20px 0 20px
   }
 `;
 
@@ -104,7 +103,7 @@ const DetailText = styled.div`
 `;
 
 const Title = styled.div`
-      font-size: 14px;
+  font-size: 14px;
 `;
 
 const StopAppointmentsButton = styled(Button)`
@@ -117,7 +116,6 @@ const StopAppointmentsButton = styled(Button)`
     font-family: Heebo;
     font-size: 14px;
     align-self: center;
-
   }
   &:hover {
     background-color: ${(props) => props.theme.general.main};
