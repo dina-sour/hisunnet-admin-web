@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { Collapse } from "react-collapse";
 import ClinicMenuItem from "../../components/ClinicMenuItem/ClinicMenuItem";
+import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 
 const ClinicsPage = (props) => {
   const history = useHistory();
@@ -64,7 +65,7 @@ const ClinicsPage = (props) => {
   const toggleVaccineTab = () => {
     let isVaccinesTabOpen = vaccineTabsOpen;
     setVaccineTabsOpen(!isVaccinesTabOpen);
-  }
+  };
 
   return (
     <Container>
@@ -96,19 +97,14 @@ const ClinicsPage = (props) => {
           );
         })}
       </ClinicsMenu>
-      <VaccineTabsTopBar  onClick={toggleVaccineTab}>
-        {
-          vaccineTabsOpen
-          ? <ExpandLessIcon size='large'/>
-          : <ExpandMoreIcon />
-        }
-      <VaccineTabsTitle>
-        מקבצי חיסונים
-      </VaccineTabsTitle>
+      <VaccineTabsTopBar onClick={toggleVaccineTab}>
+        {vaccineTabsOpen ? <ExpandLessIcon size="large" /> : <ExpandMoreIcon />}
+        <VaccineTabsTitle>מקבצי חיסונים</VaccineTabsTitle>
       </VaccineTabsTopBar>
       <Collapse isOpened={vaccineTabsOpen}>
-        <VaccineTabs />
-        <div>HI</div>
+        <VaccineTabs>
+          <VaccinesTab />
+        </VaccineTabs>
       </Collapse>
     </Container>
   );
@@ -127,19 +123,24 @@ const ClinicsMenu = styled(Menu)`
   }
 `;
 
-const VaccineTabs = styled.div``;
+const VaccineTabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 5px 20px 10px 20px;
+  background-color: ${(props) => props.theme.general.lightBackground};
+`;
 
 const VaccineTabsTopBar = styled.div`
-    color: ${(props) => props.theme.header.background};
-    display: flex;
-    height: 70px;
-    flex-direction: row;
-    background-color: ${(props) => props.theme.general.lightBackground};
-    align-items: center;
-    padding: 0 20px 0 20px;
-    &:hover {
-      cursor: pointer;
-    }
+  color: ${(props) => props.theme.header.background};
+  display: flex;
+  height: 70px;
+  flex-direction: row;
+  background-color: ${(props) => props.theme.general.lightBackground};
+  align-items: center;
+  padding: 0 20px 0 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const VaccineTabsTitle = styled.div`
@@ -149,13 +150,6 @@ const VaccineTabsTitle = styled.div`
   font-weight: 500;
   letter-spacing: 0;
   line-height: 27px;
-`;
-
-const CollapseButton = styled(IconButton)`
-  && {
-    color: ${(props) => props.theme.general.main};
-    margin-left: 25px;
-  }
 `;
 
 export default ClinicsPage;
