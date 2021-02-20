@@ -103,7 +103,9 @@ const ClinicsPage = (props) => {
       </VaccineTabsTopBar>
       <Collapse isOpened={vaccineTabsOpen}>
         <VaccineTabs>
-          <VaccinesTab />
+          <VaccinesTab 
+            remainingVaccines={225}
+          />
         </VaccineTabs>
       </Collapse>
     </Container>
@@ -126,7 +128,7 @@ const ClinicsMenu = styled(Menu)`
 const VaccineTabs = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 5px 20px 10px 20px;
+  padding: 5px 40px 10px 20px;
   background-color: ${(props) => props.theme.general.lightBackground};
 `;
 
@@ -135,9 +137,10 @@ const VaccineTabsTopBar = styled.div`
   display: flex;
   height: 70px;
   flex-direction: row;
+  box-shadow: 0 6px 6px -2px rgba(0,0,0,0.15);
   background-color: ${(props) => props.theme.general.lightBackground};
   align-items: center;
-  padding: 0 20px 0 20px;
+  padding: 0 40px 0 20px;
   &:hover {
     cursor: pointer;
   }

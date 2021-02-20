@@ -178,7 +178,7 @@ const LoginButton = styled(Button)`
     font-size: 14px;
   }
   &:hover {
-    background-color: #0d47a1;
+    background-color:  ${(props) => props.theme.general.main};
   }
 `;
 

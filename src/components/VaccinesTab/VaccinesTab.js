@@ -1,17 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography, Button } from "@material-ui/core";
 
 const VaccinesTab = (props) => {
   return (
     <Container>
-      <RemainingVaccinesGroup></RemainingVaccinesGroup>
       <AppointmentsInfoGroup>
         <Title>עודפי חיסונים</Title>
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
-        <DetailText>140</DetailText>
+        <DetailText>מ- 16:00 עד 18:00</DetailText>
+        <StopAppointmentsButton>עצירת זימונים</StopAppointmentsButton>
       </AppointmentsInfoGroup>
+      <RemainingVaccinesGroup>
+        <RemainingVaccines>
+          <NumberOfVaccines variant="h3">
+            {props.remainingVaccines}
+          </NumberOfVaccines>
+          <Typography>
+              עודפי חיסונים
+          </Typography>
+        </RemainingVaccines>
+        <EditButton>עריכה</EditButton>
+      </RemainingVaccinesGroup>
     </Container>
   );
 };
@@ -23,23 +34,94 @@ const Container = styled(Paper)`
     height: 201px;
     width: 344px;
     margin-left: auto;
+    justify-content: space-between;
   }
 `;
 
 const RemainingVaccinesGroup = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  color: ${(props) => props.theme.general.main};
+`;
+
+const RemainingVaccines = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 110px;
+  width: 110px;
+  border-radius: 10px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    ${(props) => props.theme.general.lightBackground} 0%,
+    rgba(214, 226, 241, 0.6) 100%
+  );
+`;
+
+const NumberOfVaccines = styled(Typography)`
+  && {
+    font-size: 28px;
+    margin-top: 28px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 28px;
+    text-align: center;
+  }
+`;
+
+const EditButton = styled(Button)`
+  && {
+    border: 1px solid ${(props) => props.theme.general.main};
+    color: ${(props) => props.theme.general.main};
+    background-color: white;
+    border-radius: 100px;
+    font-family: Heebo;
+    font-size: 14px;
+    height: 28px;
+    width: 120px;
+    margin-top: 20px;
+  }
+  &:hover {
+    background-color: #0d47a1;
+  }
 `;
 
 const AppointmentsInfoGroup = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: right;
+  height: 110px;
+  margin: 20px;
 `;
 
 const DetailText = styled.div`
-  color: ${(props) => props.theme.header.background};
+  color: ${(props) => props.theme.general.main};
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 20px;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+      font-size: 14px;
+`;
+
+const StopAppointmentsButton = styled(Button)`
+  && {
+    background-color: ${(props) => props.theme.general.main};
+    color: white;
+    border-radius: 100px;
+    height: 28px;
+    width: 120px;
+    font-family: Heebo;
+    font-size: 14px;
+    align-self: center;
+
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.general.main};
+  }
+`;
 
 export default VaccinesTab;
