@@ -3,18 +3,16 @@ import styled from "styled-components";
 import Header from "../../components/Header/Header";
 import { Menu } from "@material-ui/core";
 import firebase from "firebase";
-import { useHistory } from "react-router-dom";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { Collapse } from "react-collapse";
 import ClinicMenuItem from "../../components/ClinicMenuItem/ClinicMenuItem";
 import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 
 const ClinicsPage = (props) => {
-  const history = useHistory();
   const [email, setEmail] = useState("");
-  const [area, setArea] = useState("תל אביב");
   const [vaccineTabsOpen, setVaccineTabsOpen] = useState(false);
   const [clinics, setClinics] = useState([
     {
@@ -29,6 +27,7 @@ const ClinicsPage = (props) => {
     },
   ]);
   const [selectedClinic, setSelectedClinic] = useState(clinics[0].name);
+  const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
 
   const getEmail = () => {
     if (props.loggedIn) {
@@ -51,10 +50,13 @@ const ClinicsPage = (props) => {
     setAnchorEl(null);
   };
 
-  const getAllClinics = () => {};
+  const getAllClinics = () => {
+    //TODO: call api to get all clinics, with the area id
+  };
 
   const getSelectedClinicDetails = () => {
     console.log("hello");
+    //TODO: call api with clinic id for details of vaccines
   };
 
   const onClinicCheck = (clinicName) => {
@@ -103,14 +105,18 @@ const ClinicsPage = (props) => {
         <VaccineTabsTitle>מקבצי חיסונים</VaccineTabsTitle>
       </VaccineTabsTopBar>
       <Collapse isOpened={vaccineTabsOpen}>
-        <VaccineTabs>   
-          <AddVaccinesButton onClick={() => console.log("hi")}>
+        <VaccineTabs>
+          <AddVaccinesButton onClick={() => setIsVaccinesFormOpen(true)}>
             <AddVaccinesIcon />
             <AddVaccinesTitle>הוספת מקבץ חיסונים</AddVaccinesTitle>
           </AddVaccinesButton>
           <VaccinesTab remainingVaccines={225} />
         </VaccineTabs>
       </Collapse>
+      <VaccinesForm 
+      closeVaccineForm={() => setIsVaccinesFormOpen(false)}
+      formIsOpen={isVaccinesFormOpen} 
+      />
     </Container>
   );
 };
@@ -119,6 +125,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
 `;
 
 const ClinicsMenu = styled(Menu)`
@@ -141,7 +148,7 @@ const VaccineTabsTopBar = styled.div`
   display: flex;
   height: 70px;
   flex-direction: row;
-  box-shadow: 0 6px 6px -2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15);
   background-color: ${(props) => props.theme.general.lightBackground};
   align-items: center;
   padding: 0 40px 0 20px;

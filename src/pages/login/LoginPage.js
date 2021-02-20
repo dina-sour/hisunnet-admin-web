@@ -1,11 +1,11 @@
 // Import FirebaseAuth and firebase.
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
-import { Controller, useForm, reset } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Avatar, TextField, Paper, Button } from "@material-ui/core";
 import config from '../../configs/firebase-config.json';
-import { useHistory  } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
