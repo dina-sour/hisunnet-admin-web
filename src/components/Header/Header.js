@@ -12,7 +12,10 @@ const Header = (props) => {
       <UserInfoGroup>
         <LiveClock ticking={true} />
         <GroupDivider orientation="vertical" />
-        <LogoutButton endIcon={<ExitToAppSharpIcon />} onClick={props.handleLogout}>
+        <LogoutButton
+          endIcon={<ExitToAppSharpIcon />}
+          onClick={props.handleLogout}
+        >
           התנתקות
         </LogoutButton>
         <GroupDivider orientation="vertical" />
@@ -22,7 +25,12 @@ const Header = (props) => {
         <StyledIconButton onClick={props.handleClinicsMenu}>
           {props.isMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </StyledIconButton>
-        <ClinicName>מרפאה לחיסוני קורונה - {props.area}</ClinicName>
+        <ClinicDetails>
+          <ClinicName>
+            מרפאה לחיסוני קורונה - {props.selectedClinic.name}
+          </ClinicName>
+          <ClinicAddress>{props.selectedClinic.address}</ClinicAddress>
+        </ClinicDetails>
         <ClinicIcon />
       </ClinicInfoGroup>
     </Container>
@@ -74,9 +82,27 @@ const GroupDivider = styled(Divider)`
   }
 `;
 
+const ClinicDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ClinicName = styled.div`
   font-size: 18px;
   direction: rtl;
+  width: 300px;
+`;
+
+const ClinicAddress = styled.div`
+  height: 24px;
+  width: 155px;
+  color: #FFFFFF;
+  font-family: Heebo;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: right;
+  margin-left: auto;
 `;
 
 const UserInfoGroup = styled.div`

@@ -13,7 +13,7 @@ const ClinicsPage = (props) => {
   const [area, setArea] = useState("תל אביב");
   const [clinics, setClinics] = useState([{name: 'היכל שלמה', location: 'אייזק רמבה 7', address:'היי שלופ אני כתובת'}, 
   {name: '2היכל שלמה', location: '2אייזק רמבה 7', address:"היי שלום אני כתובת2"}]);
-  const [selectedClinic, setSelectedClinic] = useState();
+  const [selectedClinic, setSelectedClinic] = useState(clinics[0].name);
 
   const getEmail = () => {
     if (props.loggedIn) {
@@ -50,10 +50,10 @@ const ClinicsPage = (props) => {
     <Container>
       <Header
         userName={email}
-        area={area}
         handleLogout={props.handleLogout}
         isMenuOpen={Boolean(anchorEl)}
         handleClinicsMenu={handleClinicsMenu}
+        selectedClinic={clinics.find(clinic => clinic.name ===selectedClinic)}
       />
       <ClinicsMenu
         anchorEl={anchorEl}

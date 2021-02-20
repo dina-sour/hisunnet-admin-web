@@ -8,7 +8,7 @@ const ClinicMenuItem = React.forwardRef((props, ref) => {
     <Container onClick={props.onClinicCheck} ref={ref}>
       <Description>
         <Title>
-          <Typography>{props.clinicName} - {props.location}</Typography>
+        מרפאה לחיסוני קורונה - {props.clinicName}
         </Title>
         <Subtitle>{props.address}</Subtitle>
       </Description>
@@ -18,13 +18,14 @@ const ClinicMenuItem = React.forwardRef((props, ref) => {
 });
 
 const Container = styled(MenuItem)`
+
   && {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    width: 298px;
     direction: rtl;
     padding: 20px;
+    width: 330px;
   }
 `;
 
@@ -34,8 +35,10 @@ const Description = styled.div`
 `;
 
 const Title = styled.div`
+&&{
   font-size: 16px;
   font-weight: 500;
+}
 `;
 
 const Subtitle = styled.div`
