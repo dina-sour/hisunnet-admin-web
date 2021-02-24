@@ -82,8 +82,8 @@ const VaccinesForm = (props) => {
           <Title>שעות קבלה</Title>
           <Subtitle>ניתן להזין טווח או להוסיף תורים ספציפיים</Subtitle>
           <TimeRange>
-            {specificTimeField("startTime", "משעה")}
             {specificTimeField("endTime", "עד שעה")}
+            {specificTimeField("startTime", "משעה")}
           </TimeRange>
         </ServiceHours>
         <ButtonsGroup>
@@ -163,7 +163,6 @@ const Subtitle = styled.div`
 const RemainingVaccines = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: flex-end;
   margin-bottom: 20px;
 `;
@@ -186,7 +185,7 @@ const InputField = styled(TextField)`
   }
   & label {
     color: #525558;
-    margin-left: auto;
+    
   }
 `;
 

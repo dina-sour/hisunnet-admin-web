@@ -148,6 +148,11 @@ const LogoutButton = styled(Button)`
     line-height: 21px;
     font-weight: 250;
   }
+  & .MuiButton-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 `;
 
 export default Header;
