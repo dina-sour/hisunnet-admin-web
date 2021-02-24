@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Paper, Typography, Button } from "@material-ui/core";
+import { HouseRounded } from "@material-ui/icons";
 
 const VaccinesTab = (props) => {
   return (
@@ -9,8 +10,15 @@ const VaccinesTab = (props) => {
         <Title>מספר תורים שנקבעו</Title>
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
-        <DetailText>מ- 16:00 עד 18:00</DetailText>
-        <StopAppointmentsButton color='primary' variant="contained" >עצירת זימונים</StopAppointmentsButton>
+        {
+          props.isTimeRange
+          ? <DetailText>מ- {props.startTime} עד {props.endTime}</DetailText>
+
+        : props.hours!==undefined
+        ? <DetailText>בשעות {props.hours.join(', ')}</DetailText>
+        : null
+        }
+        <StopAppointmentsButton onClick={props.onDeleteVaccines} color='primary' variant="contained" >עצירת זימונים</StopAppointmentsButton>
       </AppointmentsInfoGroup>
       <RemainingVaccinesGroup>
         <RemainingVaccines>

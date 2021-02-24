@@ -10,6 +10,7 @@ import ClinicMenuItem from "../../components/ClinicMenuItem/ClinicMenuItem";
 import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
+import { v4 as uuid } from "uuid";
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");
@@ -28,6 +29,8 @@ const ClinicsPage = (props) => {
   ]);
   const [selectedClinic, setSelectedClinic] = useState(clinics[0].name);
   const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [vaccines, setVaccines] = useState([]);
 
   const getEmail = () => {
     if (props.loggedIn) {
@@ -40,7 +43,6 @@ const ClinicsPage = (props) => {
     getEmail();
   });
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClinicsMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,7 +73,28 @@ const ClinicsPage = (props) => {
   };
 
   const onFormSubmit = (data) => {
-    console.log(data);
+    if (data.hours===null){
+      data.hours=[];
+    }
+    let newVaccine = {
+      ...data,
+      id: uuid(),
+      isTimeRange:data.hours===undefined
+    };
+    console.log(newVaccine);
+    let updatedVaccines = [...vaccines];
+    updatedVaccines.push(newVaccine);
+    setIsVaccinesFormOpen(false);
+    setVaccines(updatedVaccines);
+  };
+
+  const onDeleteVaccines = (id) => {
+    let updatedVaccines = [...vaccines];
+    let index = updatedVaccines.findIndex((vaccine) => {
+      return vaccine.id === id;
+    });
+    if (index !== -1) updatedVaccines.splice(index, 1);
+    setVaccines(updatedVaccines);
   };
 
   return (
@@ -114,7 +137,21 @@ const ClinicsPage = (props) => {
             <AddVaccinesIcon />
             <AddVaccinesTitle>הוספת מקבץ חיסונים</AddVaccinesTitle>
           </AddVaccinesButton>
-          <VaccinesTab remainingVaccines={225} />
+          {vaccines.map((vaccine) => {
+            return (
+              <VaccinesTab
+                remainingVaccines={vaccine.remainingVaccines}
+                endTime={vaccine.endTime}
+                startTime={vaccine.startTime}
+                isTimeRange={vaccine.isTimeRange}
+                appointments={vaccine.appointments}
+                id={vaccine.id}
+                hours={vaccine.hours}
+                onDeleteVaccines={() => onDeleteVaccines(vaccine.id)}
+                key={vaccine.id}
+              />
+            );
+          })}
         </VaccineTabs>
       </Collapse>
       <VaccinesForm
