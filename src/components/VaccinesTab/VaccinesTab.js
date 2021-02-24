@@ -10,7 +10,7 @@ const VaccinesTab = (props) => {
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
         <DetailText>מ- 16:00 עד 18:00</DetailText>
-        <StopAppointmentsButton>עצירת זימונים</StopAppointmentsButton>
+        <StopAppointmentsButton color='primary' variant="contained" >עצירת זימונים</StopAppointmentsButton>
       </AppointmentsInfoGroup>
       <RemainingVaccinesGroup>
         <RemainingVaccines>

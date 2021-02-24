@@ -70,6 +70,10 @@ const ClinicsPage = (props) => {
     setVaccineTabsOpen(!isVaccinesTabOpen);
   };
 
+  const onFormSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <Container>
       <Header
@@ -113,9 +117,10 @@ const ClinicsPage = (props) => {
           <VaccinesTab remainingVaccines={225} />
         </VaccineTabs>
       </Collapse>
-      <VaccinesForm 
-      closeVaccineForm={() => setIsVaccinesFormOpen(false)}
-      formIsOpen={isVaccinesFormOpen} 
+      <VaccinesForm
+        onFormSubmit={onFormSubmit}
+        closeVaccineForm={() => setIsVaccinesFormOpen(false)}
+        formIsOpen={isVaccinesFormOpen}
       />
     </Container>
   );
@@ -125,7 +130,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-
 `;
 
 const ClinicsMenu = styled(Menu)`
