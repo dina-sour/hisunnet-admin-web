@@ -27,7 +27,7 @@ const VaccinesTab = (props) => {
           </NumberOfVaccines>
           <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
         </RemainingVaccines>
-        <EditButton>עריכה</EditButton>
+        <EditButton onClick={props.onVaccineEdit}>עריכה</EditButton>
       </RemainingVaccinesGroup>
     </Container>
   );

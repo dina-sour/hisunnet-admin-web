@@ -97,6 +97,10 @@ const ClinicsPage = (props) => {
     setVaccines(updatedVaccines);
   };
 
+  const onVaccineEdit = (id) => {
+
+  }
+
   return (
     <Container>
       <Header
@@ -149,6 +153,7 @@ const ClinicsPage = (props) => {
                 hours={vaccine.hours}
                 onDeleteVaccines={() => onDeleteVaccines(vaccine.id)}
                 key={vaccine.id}
+                onVaccineEdit={() => onVaccineEdit(vaccine.id)}
               />
             );
           })}
