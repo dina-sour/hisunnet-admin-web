@@ -11,6 +11,7 @@ import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 import { v4 as uuid } from "uuid";
+import ScrollArea from 'react-scrollbar';
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");

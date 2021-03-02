@@ -6,29 +6,48 @@ import { HouseRounded } from "@material-ui/icons";
 const VaccinesTab = (props) => {
   return (
     <Container>
+      <InfoGroup>
       <AppointmentsInfoGroup>
         <Title>מספר תורים שנקבעו</Title>
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
-        {
-          props.startTime !== undefined && props.endTime !== undefined
-          ? <DetailText>מ- {props.startTime} עד {props.endTime}</DetailText>
-
-        : props.hours!==undefined
-        ? <DetailText>בשעות {props.hours.join(', ')}</DetailText>
-        : null
+        {props.startTime !== null && props.endTime !== null ? 
+          <DetailText>
+            מ- {props.startTime} עד {props.endTime}
+          </DetailText>
+         : null
         }
-        <StopAppointmentsButton onClick={props.onDeleteVaccines} color='primary' variant="contained" >עצירת זימונים</StopAppointmentsButton>
+        {props.hours !== undefined ?
+          <DetailText>
+            בשעות{" "}
+            {
+            props.hours
+            .map((hour) => hour.value)
+            .join(', ')
+          }
+          </DetailText>
+         : null
+        }
       </AppointmentsInfoGroup>
       <RemainingVaccinesGroup>
         <RemainingVaccines>
           <NumberOfVaccines variant="h3">
             {props.remainingVaccines}
           </NumberOfVaccines>
-          <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
+        <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
         </RemainingVaccines>
-        <EditButton onClick={props.onVaccineEdit}>עריכה</EditButton>
       </RemainingVaccinesGroup>
+      </InfoGroup>
+      <ButtonsGroup>
+      <StopAppointmentsButton
+          onClick={props.onDeleteVaccines}
+          color="primary"
+          variant="contained"
+        >
+          עצירת זימונים
+        </StopAppointmentsButton>
+        <EditButton onClick={props.onVaccineEdit}>עריכה</EditButton>
+      </ButtonsGroup>
     </Container>
   );
 };
@@ -36,12 +55,12 @@ const VaccinesTab = (props) => {
 const Container = styled(Paper)`
   && {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 201px;
-    width: 344px;
+    width: 24em;
     margin-left: auto;
-    justify-content: space-between;
-    margin: 0 20px 0 20px
+    justify-content: space-evenly;
+    margin: 0 20px 0 20px;
   }
 `;
 
@@ -88,7 +107,6 @@ const EditButton = styled(Button)`
     font-size: 14px;
     height: 28px;
     width: 120px;
-    margin-top: 20px;
   }
   &:hover {
     background-color: #0d47a1;
@@ -100,18 +118,18 @@ const AppointmentsInfoGroup = styled.div`
   flex-direction: column;
   text-align: right;
   height: 110px;
-  margin: 20px;
+  margin: 20px 0 10px 0;
 `;
 
 const DetailText = styled.div`
   color: ${(props) => props.theme.general.main};
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 20px;
 `;
 
 const Title = styled.div`
   font-size: 14px;
+  margin-top: 5px
 `;
 
 const StopAppointmentsButton = styled(Button)`
@@ -131,10 +149,24 @@ const StopAppointmentsButton = styled(Button)`
 `;
 
 const RemainingVaccinesTitle = styled.div`
-  color:${(props) => props.theme.general.main};
+  color: ${(props) => props.theme.general.main};
   font-family: Heebo;
   font-size: 14px;
   margin-top: 5px;
+`;
+
+const ButtonsGroup = styled.div`
+ display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 5px 0 10px 0;
+`;
+
+const InfoGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 `;
 
 export default VaccinesTab;

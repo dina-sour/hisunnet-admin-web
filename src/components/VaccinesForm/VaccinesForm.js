@@ -7,7 +7,7 @@ import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOut
 import { Autocomplete } from "@material-ui/lab";
 
 const VaccinesForm = (props) => {
-  const { control, handleSubmit, reset } = useForm();
+  const { control, handleSubmit, reset, getValues, register } = useForm();
 
   const getTimes = () => {
     let times = [],
@@ -55,6 +55,12 @@ const VaccinesForm = (props) => {
         name={key}
         control={control}
         defaultValue={null}
+        rules={{
+          required: (value) => {
+            if (!value && getValues("hours") === null ) return true;
+            return false;
+          },
+        }}
       />
     );
   };
