@@ -72,20 +72,20 @@ const ClinicsPage = (props) => {
     setVaccineTabsOpen(!isVaccinesTabOpen);
   };
 
-  const onFormSubmit = (data) => {
+  const onFormSubmit = (data, clearForm) => {
     if (data.hours===null){
       data.hours=[];
     }
     let newVaccine = {
       ...data,
-      id: uuid(),
-      isTimeRange:data.hours===undefined
+      id: uuid()
     };
     console.log(newVaccine);
     let updatedVaccines = [...vaccines];
     updatedVaccines.push(newVaccine);
     setIsVaccinesFormOpen(false);
     setVaccines(updatedVaccines);
+    clearForm();
   };
 
   const onDeleteVaccines = (id) => {
@@ -147,7 +147,6 @@ const ClinicsPage = (props) => {
                 remainingVaccines={vaccine.remainingVaccines}
                 endTime={vaccine.endTime}
                 startTime={vaccine.startTime}
-                isTimeRange={vaccine.isTimeRange}
                 appointments={vaccine.appointments}
                 id={vaccine.id}
                 hours={vaccine.hours}

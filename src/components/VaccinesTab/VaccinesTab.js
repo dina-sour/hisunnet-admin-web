@@ -11,7 +11,7 @@ const VaccinesTab = (props) => {
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
         {
-          props.isTimeRange
+          props.startTime !== undefined && props.endTime !== undefined
           ? <DetailText>מ- {props.startTime} עד {props.endTime}</DetailText>
 
         : props.hours!==undefined

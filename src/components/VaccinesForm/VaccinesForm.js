@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  Button,
-  TextField,
-  IconButton,
-  Dialog,
-  InputAdornment,
-} from "@material-ui/core";
-import { Controller, useForm, reset } from "react-hook-form";
+import { Button, TextField, IconButton, Dialog } from "@material-ui/core";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
 import CloseIcon from "@material-ui/icons/Close";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import { Autocomplete } from "@material-ui/lab";
 
 const VaccinesForm = (props) => {
   const { control, handleSubmit, reset } = useForm();
-  const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
 
   const getTimes = () => {
     let times = [],
@@ -41,7 +35,7 @@ const VaccinesForm = (props) => {
     );
   };
 
-  const specificTimeField = (key, title) => {
+  const timeField = (key, title) => {
     return (
       <Controller
         render={(props) => (
@@ -65,6 +59,11 @@ const VaccinesForm = (props) => {
     );
   };
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "hours",
+  });
+
   return (
     <Container>
       <Popup scroll="paper" open={props.formIsOpen} onClose={props.onCloseForm}>
@@ -81,22 +80,64 @@ const VaccinesForm = (props) => {
         <ServiceHours>
           <Title>שעות קבלה</Title>
           <Subtitle>ניתן להזין טווח או להוסיף תורים ספציפיים</Subtitle>
+          <FieldDescription>טווח שעות</FieldDescription>
           <TimeRange>
-            {specificTimeField("endTime", "עד שעה")}
-            {specificTimeField("startTime", "משעה")}
+            {timeField("endTime", "עד שעה")}
+            {timeField("startTime", "משעה")}
           </TimeRange>
+          <FieldDescription>תורים לפי שעות ספציפיות</FieldDescription>
+          <SpecificTimes>
+            {fields.map((item, index) => {
+              return (
+                <div key={hours[index]}>
+                  <Controller
+                    render={(props) => (
+                      <TimeSelector
+                        options={hours}
+                        onChange={(_, data) => props.onChange(data)}
+                        renderInput={(params) => (
+                          <InputField
+                            {...params}
+                            label="בשעה"
+                            placeholder="בשעה"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    )}
+                    name={`hours[${index}].value`}
+                    control={control}
+                    defaultValue={hours[0]}
+                  />
+                </div>
+              );
+            })}
+            <AddTimeButton
+              onClick={() => {
+                append({
+                  time: "newTime",
+                });
+              }}
+              endIcon={<AddCircleOutlineOutlinedIcon />}
+            >
+              הוספת שעה
+            </AddTimeButton>
+          </SpecificTimes>
         </ServiceHours>
         <ButtonsGroup>
           <SubmitButton
             color="primary"
             variant="contained"
-            onClick={handleSubmit(props.onFormSubmit)}
+            onClick={handleSubmit((_) => props.onFormSubmit(_, remove))}
           >
             שמירה
           </SubmitButton>
           <ResetFormButton
             variant="contained"
-            onClick={handleSubmit(props.onFormSubmit)}
+            onClick={() => {
+              remove();
+              reset();
+            }}
           >
             ניקוי טופס
           </ResetFormButton>
@@ -160,6 +201,12 @@ const Subtitle = styled.div`
   margin-bottom: 20px;
 `;
 
+const FieldDescription = styled.div`
+  color: #525558;
+  font-family: Heebo;
+  font-size: 16px;
+`;
+
 const RemainingVaccines = styled.div`
   display: flex;
   flex-direction: column;
@@ -185,7 +232,6 @@ const InputField = styled(TextField)`
   }
   & label {
     color: #525558;
-    
   }
 `;
 
@@ -214,6 +260,22 @@ const TimeRange = styled.div`
 const TimeSelector = styled(Autocomplete)`
   height: 50px;
   width: 162px;
+  margin-bottom: 50px;
+`;
+
+const SpecificTimes = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const AddTimeButton = styled(Button)`
+  && {
+    justify-content: space-evenly;
+    text-decoration: underline;
+  }
+  width: 140px;
 `;
 
 const ButtonsGroup = styled.div`

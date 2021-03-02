@@ -8,8 +8,6 @@ const headers = {
 const api = axios.create({
     headers,
     baseURL: config.API_URL
-})
-
-console.log(config.API_URL)
+});
 
 export default api;
