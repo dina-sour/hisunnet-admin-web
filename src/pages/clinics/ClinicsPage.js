@@ -99,7 +99,7 @@ const ClinicsPage = (props) => {
   };
 
   const onVaccineEdit = (id) => {
-
+    setIsVaccinesFormOpen(true);
   }
 
   return (
