@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Button, TextField, IconButton, Dialog } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  IconButton,
+  Dialog,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import CloseIcon from "@material-ui/icons/Close";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import { Autocomplete } from "@material-ui/lab";
+import ReactHookFormSelect from "../ReactHookFormSelect/ReactHookFormSelect";
 
 const VaccinesForm = (props) => {
-  const { control, handleSubmit, reset, getValues, register } = useForm();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    getValues,
+    watch,
+    register,
+    setValue,
+  } = useForm();
 
   const getTimes = () => {
     let times = [],
@@ -31,37 +47,26 @@ const VaccinesForm = (props) => {
         control={control}
         defaultValue=""
         rules={{ required: true }}
+        ref={register}
       />
     );
   };
 
-  const timeField = (key, title) => {
+  const timeField = (key, title, value) => {
     return (
-      <Controller
-        render={(props) => (
-          <TimeSelector
-            options={hours}
-            onChange={(_, data) => props.onChange(data)}
-            renderInput={(params) => (
-              <InputField
-                {...params}
-                label={title}
-                placeholder={title}
-                variant="outlined"
-              />
-            )}
-          />
-        )}
+      <ReactHookFormSelect
+        id={key}
         name={key}
+        label={title}
         control={control}
-        defaultValue={null}
-        rules={{
-          required: (value) => {
-            if (!value && getValues("hours") === null ) return true;
-            return false;
-          },
-        }}
-      />
+        value={value}
+        variant="outlined"
+        margin="normal"
+      >
+        {hours.map((hour) => {
+          return <MenuItem value={hour}>{hour}</MenuItem>;
+        })}
+      </ReactHookFormSelect>
     );
   };
 
@@ -70,9 +75,27 @@ const VaccinesForm = (props) => {
     name: "hours",
   });
 
+  const onDialogEnter = () => {
+    if (props.vaccine) {
+      let vaccine = props.vaccine;
+      reset({
+        remainingVaccines: vaccine.remainingVaccines,
+        startTime: vaccine.startTime,
+        endTime: vaccine.endTime,
+        hours: vaccine.hours
+      });
+    }
+  };
+
   return (
     <Container>
-      <Popup scroll="paper" open={props.formIsOpen} onClose={props.onCloseForm}>
+      <Popup
+        onEnter={onDialogEnter}
+        onExit={onDialogEnter}
+        scroll="paper"
+        open={props.formIsOpen}
+        onClose={props.onCloseForm}
+      >
         <DialogTop>
           <IconButton onClick={props.closeVaccineForm}>
             <CloseIcon />
@@ -88,40 +111,35 @@ const VaccinesForm = (props) => {
           <Subtitle>ניתן להזין טווח או להוסיף תורים ספציפיים</Subtitle>
           <FieldDescription>טווח שעות</FieldDescription>
           <TimeRange>
-            {timeField("endTime", "עד שעה")}
-            {timeField("startTime", "משעה")}
+            {timeField("endTime", "עד שעה", props.vaccine && props.vaccine.endTime)}
+            {timeField("startTime", "משעה", props.vaccine && props.vaccine.startTime)}
           </TimeRange>
           <FieldDescription>תורים לפי שעות ספציפיות</FieldDescription>
           <SpecificTimes>
             {fields.map((item, index) => {
               return (
                 <div key={hours[index]}>
-                  <Controller
-                    render={(props) => (
-                      <TimeSelector
-                        options={hours}
-                        onChange={(_, data) => props.onChange(data)}
-                        renderInput={(params) => (
-                          <InputField
-                            {...params}
-                            label="בשעה"
-                            placeholder="בשעה"
-                            variant="outlined"
-                          />
-                        )}
-                      />
-                    )}
+                  <ReactHookFormSelect
+                    id={index}
                     name={`hours[${index}].value`}
+                    label="בשעה"
                     control={control}
-                    defaultValue={hours[0]}
-                  />
+                    value={item.value}
+                    variant="outlined"
+                    margin="normal"
+                    register={register}
+                  >
+                    {hours.map((hour) => {
+                      return <MenuItem value={hour}>{hour}</MenuItem>;
+                    })}
+                  </ReactHookFormSelect>
                 </div>
               );
             })}
             <AddTimeButton
               onClick={() => {
                 append({
-                  time: "newTime",
+                  value: "",
                 });
               }}
               endIcon={<AddCircleOutlineOutlinedIcon />}
@@ -134,7 +152,7 @@ const VaccinesForm = (props) => {
           <SubmitButton
             color="primary"
             variant="contained"
-            onClick={handleSubmit((_) => props.onFormSubmit(_, remove))}
+            onClick={handleSubmit((vaccine) =>  props.onFormSubmit(vaccine, remove))}
           >
             שמירה
           </SubmitButton>

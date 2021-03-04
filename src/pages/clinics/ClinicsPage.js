@@ -73,17 +73,18 @@ const ClinicsPage = (props) => {
     setVaccineTabsOpen(!isVaccinesTabOpen);
   };
 
-  const onFormSubmit = (data, clearForm) => {
+  const onFormSubmit = (data, clearForm, form) => {
+    console.log(data);
     if (data.hours===null){
       data.hours=[];
     }
     let newVaccine = {
       ...data,
-      id: uuid()
+      id: uuid(),
+      form
     };
-    console.log(newVaccine);
     let updatedVaccines = [...vaccines];
-    updatedVaccines.push(newVaccine);
+    updatedVaccines.unshift(newVaccine);
     setIsVaccinesFormOpen(false);
     setVaccines(updatedVaccines);
     clearForm();
@@ -98,8 +99,11 @@ const ClinicsPage = (props) => {
     setVaccines(updatedVaccines);
   };
 
-  const onVaccineEdit = (id) => {
-    setIsVaccinesFormOpen(true);
+  const onVaccineEdit = (vaccine) => {
+    let index = vaccines.map(vac => vac.id).indexOf(vaccine.id);
+    let newVaccines = [...vaccines];
+    newVaccines.splice(index, 1, vaccine);
+    setVaccines(newVaccines);
   }
 
   return (
@@ -150,10 +154,11 @@ const ClinicsPage = (props) => {
                 startTime={vaccine.startTime}
                 appointments={vaccine.appointments}
                 id={vaccine.id}
+                vaccine={vaccine}
                 hours={vaccine.hours}
                 onDeleteVaccines={() => onDeleteVaccines(vaccine.id)}
                 key={vaccine.id}
-                onVaccineEdit={() => onVaccineEdit(vaccine.id)}
+                onVaccineEdit={onVaccineEdit}
               />
             );
           })}

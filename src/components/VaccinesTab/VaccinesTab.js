@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, Typography, Button } from "@material-ui/core";
-import { HouseRounded } from "@material-ui/icons";
+import VaccinesForm from '../../components/VaccinesForm/VaccinesForm';
 
 const VaccinesTab = (props) => {
+
+  const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
+
   return (
     <Container>
       <InfoGroup>
@@ -11,7 +14,9 @@ const VaccinesTab = (props) => {
         <Title>מספר תורים שנקבעו</Title>
         <DetailText>140</DetailText>
         <Title>שעות קבלה </Title>
-        {props.startTime !== null && props.endTime !== null ? 
+        {(props.startTime !== null && props.endTime !== null)
+        && (props.startTime !== "" && props.endTime !== "")
+         ? 
           <DetailText>
             מ- {props.startTime} עד {props.endTime}
           </DetailText>
@@ -46,8 +51,17 @@ const VaccinesTab = (props) => {
         >
           עצירת זימונים
         </StopAppointmentsButton>
-        <EditButton onClick={props.onVaccineEdit}>עריכה</EditButton>
+        <EditButton onClick={() => setIsVaccinesFormOpen(true)}>עריכה</EditButton>
       </ButtonsGroup>
+      <VaccinesForm
+        vaccine={props.vaccine}
+        onFormSubmit={(vaccine,_) => {
+          props.onVaccineEdit({...vaccine, id: props.vaccine.id})
+          setIsVaccinesFormOpen(false);
+        }}
+        closeVaccineForm={() => setIsVaccinesFormOpen(false)}
+        formIsOpen={isVaccinesFormOpen}
+      />
     </Container>
   );
 };
