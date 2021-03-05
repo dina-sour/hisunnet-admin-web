@@ -11,7 +11,6 @@ import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 import { v4 as uuid } from "uuid";
-import ScrollArea from 'react-scrollbar';
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");
@@ -44,7 +43,6 @@ const ClinicsPage = (props) => {
     getEmail();
   });
 
-
   const handleClinicsMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -63,8 +61,6 @@ const ClinicsPage = (props) => {
   };
 
   const onClinicCheck = (clinicName) => {
-    console.log(clinicName);
-    console.log(selectedClinic);
     setSelectedClinic(clinicName);
   };
 
@@ -74,14 +70,13 @@ const ClinicsPage = (props) => {
   };
 
   const onFormSubmit = (data, clearForm, form) => {
-    console.log(data);
-    if (data.hours===null){
-      data.hours=[];
+    if (data.hours === null) {
+      data.hours = [];
     }
     let newVaccine = {
       ...data,
       id: uuid(),
-      form
+      form,
     };
     let updatedVaccines = [...vaccines];
     updatedVaccines.unshift(newVaccine);
@@ -100,11 +95,11 @@ const ClinicsPage = (props) => {
   };
 
   const onVaccineEdit = (vaccine) => {
-    let index = vaccines.map(vac => vac.id).indexOf(vaccine.id);
+    let index = vaccines.map((vac) => vac.id).indexOf(vaccine.id);
     let newVaccines = [...vaccines];
     newVaccines.splice(index, 1, vaccine);
     setVaccines(newVaccines);
-  }
+  };
 
   return (
     <Container>
@@ -141,28 +136,28 @@ const ClinicsPage = (props) => {
         <VaccineTabsTitle>מקבצי חיסונים</VaccineTabsTitle>
       </VaccineTabsTopBar>
       <Collapse isOpened={vaccineTabsOpen}>
-        <VaccineTabs>
-          <AddVaccinesButton onClick={() => setIsVaccinesFormOpen(true)}>
-            <AddVaccinesIcon />
-            <AddVaccinesTitle>הוספת מקבץ חיסונים</AddVaccinesTitle>
-          </AddVaccinesButton>
-          {vaccines.map((vaccine) => {
-            return (
-              <VaccinesTab
-                remainingVaccines={vaccine.remainingVaccines}
-                endTime={vaccine.endTime}
-                startTime={vaccine.startTime}
-                appointments={vaccine.appointments}
-                id={vaccine.id}
-                vaccine={vaccine}
-                hours={vaccine.hours}
-                onDeleteVaccines={() => onDeleteVaccines(vaccine.id)}
-                key={vaccine.id}
-                onVaccineEdit={onVaccineEdit}
-              />
-            );
-          })}
-        </VaccineTabs>
+          <VaccineTabs>
+            <AddVaccinesButton onClick={() => setIsVaccinesFormOpen(true)}>
+              <AddVaccinesIcon />
+              <AddVaccinesTitle>הוספת מקבץ חיסונים</AddVaccinesTitle>
+            </AddVaccinesButton>
+            {vaccines.map((vaccine) => {
+              return (
+                <VaccinesTab
+                  remainingVaccines={vaccine.remainingVaccines}
+                  endTime={vaccine.endTime}
+                  startTime={vaccine.startTime}
+                  appointments={vaccine.appointments}
+                  id={vaccine.id}
+                  vaccine={vaccine}
+                  hours={vaccine.hours}
+                  onDeleteVaccines={() => onDeleteVaccines(vaccine.id)}
+                  key={vaccine.id}
+                  onVaccineEdit={onVaccineEdit}
+                />
+              );
+            })}
+          </VaccineTabs>
       </Collapse>
       <VaccinesForm
         onFormSubmit={onFormSubmit}
@@ -192,6 +187,7 @@ const VaccineTabs = styled.div`
   justify-content: flex-end;
   padding: 5px 40px 10px 20px;
   background-color: ${(props) => props.theme.general.lightBackground};
+  overflow-x: auto;
 `;
 
 const VaccineTabsTopBar = styled.div`

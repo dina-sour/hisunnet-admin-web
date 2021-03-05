@@ -1,17 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import {
   Button,
   TextField,
   IconButton,
   Dialog,
-  Select,
   MenuItem,
 } from "@material-ui/core";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import CloseIcon from "@material-ui/icons/Close";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import { Autocomplete } from "@material-ui/lab";
 import ReactHookFormSelect from "../ReactHookFormSelect/ReactHookFormSelect";
 
 const VaccinesForm = (props) => {
@@ -45,7 +43,7 @@ const VaccinesForm = (props) => {
         name={key}
         as={<InputField variant="outlined" label={title} type={type} />}
         control={control}
-        defaultValue=""
+        defaultValue=''
         rules={{ required: true }}
         ref={register}
       />
@@ -116,6 +114,16 @@ const VaccinesForm = (props) => {
           </TimeRange>
           <FieldDescription>תורים לפי שעות ספציפיות</FieldDescription>
           <SpecificTimes>
+          <AddTimeButton
+              onClick={() => {
+                append({
+                  value: '',
+                });
+              }}
+              endIcon={<AddCircleOutlineOutlinedIcon />}
+            >
+              הוספת שעה
+            </AddTimeButton>
             {fields.map((item, index) => {
               return (
                 <div key={hours[index]}>
@@ -124,10 +132,9 @@ const VaccinesForm = (props) => {
                     name={`hours[${index}].value`}
                     label="בשעה"
                     control={control}
-                    value={item.value}
+                    value={item.value || ''}
                     variant="outlined"
                     margin="normal"
-                    register={register}
                   >
                     {hours.map((hour) => {
                       return <MenuItem value={hour}>{hour}</MenuItem>;
@@ -136,16 +143,6 @@ const VaccinesForm = (props) => {
                 </div>
               );
             })}
-            <AddTimeButton
-              onClick={() => {
-                append({
-                  value: "",
-                });
-              }}
-              endIcon={<AddCircleOutlineOutlinedIcon />}
-            >
-              הוספת שעה
-            </AddTimeButton>
           </SpecificTimes>
         </ServiceHours>
         <ButtonsGroup>
@@ -222,13 +219,14 @@ const Subtitle = styled.div`
   letter-spacing: 0;
   line-height: 21px;
   margin-left: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const FieldDescription = styled.div`
   color: #525558;
   font-family: Heebo;
   font-size: 16px;
+  margin-top: 10px;
 `;
 
 const RemainingVaccines = styled.div`
@@ -281,17 +279,12 @@ const TimeRange = styled.div`
   width: 344px;
 `;
 
-const TimeSelector = styled(Autocomplete)`
-  height: 50px;
-  width: 162px;
-  margin-bottom: 50px;
-`;
-
 const SpecificTimes = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  width: 80%;
 `;
 
 const AddTimeButton = styled(Button)`

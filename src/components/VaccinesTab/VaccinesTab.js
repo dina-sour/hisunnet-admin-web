@@ -1,62 +1,65 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, Typography, Button } from "@material-ui/core";
-import VaccinesForm from '../../components/VaccinesForm/VaccinesForm';
+import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 
 const VaccinesTab = (props) => {
-
   const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
 
   return (
     <Container>
       <InfoGroup>
-      <AppointmentsInfoGroup>
-        <Title>מספר תורים שנקבעו</Title>
-        <DetailText>140</DetailText>
-        <Title>שעות קבלה </Title>
-        {(props.startTime !== null && props.endTime !== null)
-        && (props.startTime !== "" && props.endTime !== "")
-         ? 
-          <DetailText>
-            מ- {props.startTime} עד {props.endTime}
-          </DetailText>
-         : null
-        }
-        {props.hours !== undefined ?
-          <DetailText>
-            בשעות{" "}
-            {
-            props.hours
-            .map((hour) => hour.value)
-            .join(', ')
-          }
-          </DetailText>
-         : null
-        }
-      </AppointmentsInfoGroup>
-      <RemainingVaccinesGroup>
-        <RemainingVaccines>
-          <NumberOfVaccines variant="h3">
-            {props.remainingVaccines}
-          </NumberOfVaccines>
-        <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
-        </RemainingVaccines>
-      </RemainingVaccinesGroup>
+        <AppointmentsInfoGroup>
+          <Title>מספר תורים שנקבעו</Title>
+          <DetailText>140</DetailText>
+          <Title>שעות קבלה </Title>
+          {props.startTime !== null &&
+          props.endTime !== null &&
+          props.startTime !== "" &&
+          props.endTime !== "" ? (
+            <DetailText>
+              מ- {props.startTime} עד {props.endTime}
+            </DetailText>
+          ) : null}
+          {props.hours !== undefined ? (
+            <DetailText>
+              בשעות {props.hours.map((hour) => hour.value).join(", ")}
+            </DetailText>
+          ) : null}
+          {((props.startTime === null &&
+          props.endTime === null) ||
+          (props.startTime === "" &&
+          props.endTime === "")) &&
+          (props.hours === undefined ||
+          props.hours.every((hour) => hour.value === "")) ? (
+            <DetailText>אין</DetailText>
+          ) : null}
+        </AppointmentsInfoGroup>
+        <RemainingVaccinesGroup>
+          <RemainingVaccines>
+            <NumberOfVaccines variant="h3">
+              {props.remainingVaccines}
+            </NumberOfVaccines>
+            <RemainingVaccinesTitle>עודפי חיסונים</RemainingVaccinesTitle>
+          </RemainingVaccines>
+        </RemainingVaccinesGroup>
       </InfoGroup>
       <ButtonsGroup>
-      <StopAppointmentsButton
+        <StopAppointmentsButton
           onClick={props.onDeleteVaccines}
           color="primary"
           variant="contained"
         >
           עצירת זימונים
         </StopAppointmentsButton>
-        <EditButton onClick={() => setIsVaccinesFormOpen(true)}>עריכה</EditButton>
+        <EditButton onClick={() => setIsVaccinesFormOpen(true)}>
+          עריכה
+        </EditButton>
       </ButtonsGroup>
       <VaccinesForm
         vaccine={props.vaccine}
-        onFormSubmit={(vaccine,_) => {
-          props.onVaccineEdit({...vaccine, id: props.vaccine.id})
+        onFormSubmit={(vaccine, _) => {
+          props.onVaccineEdit({ ...vaccine, id: props.vaccine.id });
           setIsVaccinesFormOpen(false);
         }}
         closeVaccineForm={() => setIsVaccinesFormOpen(false)}
@@ -71,7 +74,7 @@ const Container = styled(Paper)`
     display: flex;
     flex-direction: column;
     height: 201px;
-    width: 24em;
+    width: 344px;
     margin-left: auto;
     justify-content: space-evenly;
     margin: 0 20px 0 20px;
@@ -143,7 +146,7 @@ const DetailText = styled.div`
 
 const Title = styled.div`
   font-size: 14px;
-  margin-top: 5px
+  margin-top: 5px;
 `;
 
 const StopAppointmentsButton = styled(Button)`
@@ -170,7 +173,7 @@ const RemainingVaccinesTitle = styled.div`
 `;
 
 const ButtonsGroup = styled.div`
- display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;

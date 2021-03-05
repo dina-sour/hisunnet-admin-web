@@ -2,6 +2,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import { Controller } from "react-hook-form";
+import styled from 'styled-components';
 
 const ReactHookFormSelect = ({
   name,
@@ -17,17 +18,26 @@ const ReactHookFormSelect = ({
       <InputLabel id={labelId}>{label}</InputLabel>
       <Controller
         as={
-          <Select labelId={labelId} label={label}>
+          <SelectInput labelId={labelId} label={label}>
             {children}
-          </Select>
+          </SelectInput>
         }
         name={name}
         control={control}
-        defaultValue={value}
+        defaultValue={value || ''}
         displayEmpty 
-        register={props.register}
       />
     </FormControl>
   );
 };
+
+const SelectInput = styled(Select)`
+  &&{
+  width: 150px;
+  direction: rtl;
+  border-radius: 100px;
+  color: #525558;
+  }
+`;
+
 export default ReactHookFormSelect;
