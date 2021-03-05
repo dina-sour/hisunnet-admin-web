@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../../components/Header/Header";
-import { Menu } from "@material-ui/core";
+import { Menu, Tabs, Tab,AppBar} from "@material-ui/core";
 import firebase from "firebase";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -11,6 +11,8 @@ import VaccinesTab from "../../components/VaccinesTab/VaccinesTab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 import { v4 as uuid } from "uuid";
+import TabPanel from '../../components/TabPanel/TabPanel';
+import AppointmentsTable from '../../components/AppointmentsTable/AppointmentsTable';
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");
@@ -31,6 +33,11 @@ const ClinicsPage = (props) => {
   const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [vaccines, setVaccines] = useState([]);
+  const [tabIndex, setTabIndex] = React.useState(0);
+
+  const changeTabIndex = (event, newValue) => {
+    setTabIndex(newValue);
+  };
 
   const getEmail = () => {
     if (props.loggedIn) {
@@ -101,6 +108,20 @@ const ClinicsPage = (props) => {
     setVaccines(newVaccines);
   };
 
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+  const exampleRows = [
+    { id: '0', appointmentTime: '16:30', fullName: 'דינה מטבייב', idNumber: '123456789', phoneNumber: '0521234567' },
+    { id: '1', appointmentTime: '16:30', fullName: '2דינה מטבייב', idNumber: '123456789', phoneNumber: '0521234567' },
+    { id: '3', appointmentTime: '16:30', fullName: '3דינה מטבייב', idNumber: '123456789', phoneNumber: '0521234567' },
+
+  ]
+
   return (
     <Container>
       <Header
@@ -164,6 +185,24 @@ const ClinicsPage = (props) => {
         closeVaccineForm={() => setIsVaccinesFormOpen(false)}
         formIsOpen={isVaccinesFormOpen}
       />
+      <div>
+      <AppBar position="static">
+        <Tabs value={tabIndex} onChange={changeTabIndex}>
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={tabIndex} index={0}>
+        <AppointmentsTable rows={exampleRows}/>
+      </TabPanel>
+      <TabPanel value={tabIndex} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={tabIndex} index={2}>
+        Item Three
+      </TabPanel>
+    </div>
     </Container>
   );
 };
