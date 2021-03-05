@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../../components/Header/Header";
-import { Menu, Tabs, Tab, AppBar } from "@material-ui/core";
+import { Menu, Tabs, Tab, AppBar, Typography } from "@material-ui/core";
 import firebase from "firebase";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -13,6 +13,7 @@ import VaccinesForm from "../../components/VaccinesForm/VaccinesForm";
 import { v4 as uuid } from "uuid";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import AppointmentsTable from "../../components/AppointmentsTable/AppointmentsTable";
+import AppointmentsInfo from '../../components/AppointmentsInfo/AppointmentsInfo';
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");
@@ -31,11 +32,12 @@ const ClinicsPage = (props) => {
   ]);
   const [selectedClinic, setSelectedClinic] = useState(clinics[0].name);
   const [isVaccinesFormOpen, setIsVaccinesFormOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [vaccines, setVaccines] = useState([]);
-  const [tabIndex, setTabIndex] = React.useState(0);
-  const [selectedRows, setSelectedRows] = React.useState([]);
-  const [selectedAttendees, setSelectedAttendees] = React.useState([]);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedAttendees, setSelectedAttendees] = useState([]);
+  const [numberOfTodaysAttendees, setNumberOfTodaysAttendees] = useState(0);
 
   const changeTabIndex = (event, newValue) => {
     setTabIndex(newValue);
@@ -208,6 +210,9 @@ const ClinicsPage = (props) => {
         closeVaccineForm={() => setIsVaccinesFormOpen(false)}
         formIsOpen={isVaccinesFormOpen}
       />
+      <AppointmentsInfo 
+        numberOfTodaysAttendees={numberOfTodaysAttendees}
+      />
       <div>
         <AppointmentsNavBar position="static" color="default">
           <AppointmentsTabs
@@ -312,6 +317,7 @@ const AddVaccinesIcon = styled(AddCircleOutlineIcon)`
   }
 `;
 
+
 const AppointmentsNavBar = styled(AppBar)`
   && {
     color: #151515;
@@ -322,7 +328,6 @@ const AppointmentsNavBar = styled(AppBar)`
 
 const AppointmentsTabs = styled(Tabs)`
   direction: rtl;
-  height: 55px;
   && {
     display: flex;
     flex-direction: row;
