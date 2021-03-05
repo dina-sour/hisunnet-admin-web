@@ -4,16 +4,13 @@ import { DataGrid } from "@material-ui/data-grid";
 import appointmentsTableColumns from "./appointments-table-columns";
 
 const AppointmentsTable = (props) => {
-  const [selectionModel, setSelectionModel] = React.useState([]);
-
   return (
     <Container>
-      <DataGrid
+      <Table
         onSelectionModelChange={(newSelection) => {
-          setSelectionModel(newSelection.selectionModel);
-          console.log(newSelection);
+          props.onSelectAttendees(newSelection);
         }}
-        selectionModel={selectionModel}
+        selectionModel={props.selectedRows}
         rows={props.rows}
         columns={appointmentsTableColumns}
         pageSize={10}
@@ -24,10 +21,14 @@ const AppointmentsTable = (props) => {
 };
 
 const Container = styled.div`
-  && {
-    width: 100%;
     direction: rtl;
     height: 650px;
+    width: 100%;
+`;
+
+const Table = styled(DataGrid)`
+  && {
+    overflow-x: hidden;
   }
 `;
 
