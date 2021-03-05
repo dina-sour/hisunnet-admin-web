@@ -4,8 +4,9 @@ import firebase from "firebase";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import { Avatar, TextField, Paper, Button } from "@material-ui/core";
-import config from '../../configs/firebase-config.json';
-import { useHistory } from 'react-router-dom';
+import config from "../../configs/firebase-config.json";
+import { useHistory } from "react-router-dom";
+import { useSnackbar, withSnackbar } from 'notistack';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
@@ -16,36 +17,39 @@ const LoginPage = (props) => {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const { control, handleSubmit, reset } = useForm();
   const history = useHistory();
+  const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const onLoginSubmit = (data) => {
-      const auth =  firebase.auth()
+    const auth = firebase
+      .auth()
       .signInWithEmailAndPassword(data.email, data.password);
-      auth.then((res) => {
-        history.push(props.redirect);
-        console.log(res);
-      });
-      auth.catch((err) => {
-        console.log("unable to login!", err);
-        setLoginFailed(true);
-        switch(err.code) {
-          case 'auth/user-disabled':
-            setLoginErrorMessage('המשתמש חסום');
-            break;
-          case 'auth/user-not-found':
-            setLoginErrorMessage('המשתמש אינו קיים במערכת');
-            break;
-          case 'auth/network-request-failed':
-            setLoginErrorMessage('שגיאת רשת');
-            break;
-          case 'auth/wrong-password':
-            setLoginErrorMessage('הסיסמא שהקלדת אינה נכונה. אנא נסה שנית');
-            break;
-          default: 
-          setLoginErrorMessage('קרתה שגיאה, נסו יותר מאוחר');
-            break;
-        }
-        reset({});
-      });
+    auth.then((res) => {
+      history.push(props.redirect);
+      console.log(res);
+    });
+    auth.catch((err) => {
+      console.log("unable to login!", err);
+      setLoginFailed(true);
+      switch (err.code) {
+        case "auth/user-disabled":
+          setLoginErrorMessage("המשתמש חסום");
+          break;
+        case "auth/user-not-found":
+          setLoginErrorMessage("המשתמש אינו קיים במערכת");
+          break;
+        case "auth/network-request-failed":
+          setLoginErrorMessage("שגיאת רשת");
+          break;
+        case "auth/wrong-password":
+          setLoginErrorMessage("הסיסמא שהקלדת אינה נכונה. אנא נסה שנית");
+          break;
+        default:
+          setLoginErrorMessage("קרתה שגיאה, נסו יותר מאוחר");
+          break;
+      }
+      reset({});
+    });
   };
 
   const loginField = (key, title, type) => {
@@ -60,6 +64,23 @@ const LoginPage = (props) => {
     );
   };
 
+  const onPasswordReset = (e) => {
+    e.preventDefault();
+    let email = firebase.auth().currentUser.email;
+    firebase.auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        setEmailHasBeenSent(true);
+        enqueueSnackbar('נשלח אלייך למייל קישור לשחזור הסיסמא');
+        setTimeout(() => {
+          setEmailHasBeenSent(false);
+        }, 30000);
+      })
+      .catch(() => {
+        setLoginErrorMessage("קרתה שגיאה בשחזור הסיסמה, נסו יותר מאוחר");
+      });
+  };
+
   return (
     <Container>
       <MaccabiIcon>M</MaccabiIcon>
@@ -71,15 +92,17 @@ const LoginPage = (props) => {
           {loginField("password", "סיסמה", "password")}
         </LoginForm>
         <ButtonGroup>
-          {
-            loginFailed
-            ? <LoginFailMessage>{loginErrorMessage}</LoginFailMessage>
-            : null
-          }
-          <LoginButton onClick={handleSubmit(onLoginSubmit)} color="primary" variant="contained">
+          {loginFailed ? (
+            <LoginFailMessage>{loginErrorMessage}</LoginFailMessage>
+          ) : null}
+          <LoginButton
+            onClick={handleSubmit(onLoginSubmit)}
+            color="primary"
+            variant="contained"
+          >
             כניסה
           </LoginButton>
-          <ForgotPasswordLink href='/clinics'>שכחתי סיסמה</ForgotPasswordLink>
+          <ForgotPassword onClick={(event) => onPasswordReset(event)}>שכחתי סיסמה</ForgotPassword>
         </ButtonGroup>
       </LoginBox>
     </Container>
@@ -107,7 +130,7 @@ const Title = styled.div`
   color: #141414;
   font-size: 18px;
   font-weight: 500;
-  font-family: 'Heebo';
+  font-family: "Heebo";
 `;
 
 const LoginBox = styled(Paper)`
@@ -178,11 +201,11 @@ const LoginButton = styled(Button)`
     font-size: 14px;
   }
   &:hover {
-    background-color:  ${(props) => props.theme.general.main};
+    background-color: ${(props) => props.theme.general.main};
   }
 `;
 
-const ForgotPasswordLink = styled.a`
+const ForgotPassword = styled.div`
   text-decoration: underline;
   height: 21px;
   color: #525558;
@@ -191,6 +214,10 @@ const ForgotPasswordLink = styled.a`
   letter-spacing: 0;
   line-height: 21px;
   margin-top: 51px;
+  &:hover {
+    cursor: pointer;
+    color: #8a8e91;
+  }
 `;
 
 const LoginFailMessage = styled.div`
@@ -199,4 +226,4 @@ const LoginFailMessage = styled.div`
   margin-bottom: 12px;
 `;
 
-export default LoginPage;
+export default withSnackbar(LoginPage);

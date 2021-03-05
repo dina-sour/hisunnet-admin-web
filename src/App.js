@@ -12,7 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { useHistory } from "react-router-dom";
 import Theme from "./Theme";
 import { ThemeStore } from "./contexts/ThemeStore";
-//api.get()
+import { SnackbarProvider } from 'notistack';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
@@ -51,6 +51,7 @@ const App = () => {
   return (
     <ThemeStore>
       <Theme>
+      <SnackbarProvider maxSnack={3}>
       <AppContainer>
         <Switch>
           <Route exact path="/login">
@@ -64,6 +65,7 @@ const App = () => {
           </Route>
         </Switch>
       </AppContainer>
+      </SnackbarProvider>
       </Theme>
     </ThemeStore>
   );
