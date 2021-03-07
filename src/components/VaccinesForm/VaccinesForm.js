@@ -92,7 +92,6 @@ const VaccinesForm = (props) => {
         onExit={onDialogEnter}
         scroll="paper"
         open={props.formIsOpen}
-        onClose={props.onCloseForm}
       >
         <DialogTop>
           <IconButton onClick={props.closeVaccineForm}>

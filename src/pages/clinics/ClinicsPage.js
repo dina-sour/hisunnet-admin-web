@@ -14,6 +14,7 @@ import { v4 as uuid } from "uuid";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import AppointmentsTable from "../../components/AppointmentsTable/AppointmentsTable";
 import AppointmentsInfo from '../../components/AppointmentsInfo/AppointmentsInfo';
+import LocationSelectionForm from '../../components/LocationSelectionForm/LocationSelectionForm';
 
 const ClinicsPage = (props) => {
   const [email, setEmail] = useState("");
@@ -38,6 +39,7 @@ const ClinicsPage = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedAttendees, setSelectedAttendees] = useState([]);
   const [numberOfTodaysAttendees, setNumberOfTodaysAttendees] = useState(0);
+  const [locationSelectionIsOpen, setLocationSelectionIsOpen] = useState(false);
 
   const changeTabIndex = (event, newValue) => {
     setTabIndex(newValue);
@@ -49,6 +51,16 @@ const ClinicsPage = (props) => {
       setEmail(email);
     }
   };
+
+  useEffect(() => {
+    let location = localStorage.getItem("location");
+    if (location !== null && location !== undefined) {
+      setLocationSelectionIsOpen(false);
+    }
+    else {
+      setLocationSelectionIsOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     getEmail();
@@ -149,6 +161,10 @@ const ClinicsPage = (props) => {
 
   return (
     <Container>
+      <LocationSelectionForm 
+        locationSelectionIsOpen={locationSelectionIsOpen}
+        closeForm={() => setLocationSelectionIsOpen(false)}
+      />
       <Header
         userName={email}
         handleLogout={props.handleLogout}
