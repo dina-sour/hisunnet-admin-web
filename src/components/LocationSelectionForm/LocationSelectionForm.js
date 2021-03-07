@@ -81,8 +81,8 @@ const Popup = styled(Dialog)`
     background-color: transparent;
   }
   & .MuiDialog-paper {
-    height: 658px;
-    width: 1130px;
+    height: 400px;
+    width: 1000px;
     padding: 20px;
   }
   &.MuiDialog-root {
@@ -92,6 +92,7 @@ const Popup = styled(Dialog)`
 
 const Title = styled.h1`
   align-self: center;
+  color: #2d2e2e;
 `;
 
 const DialogTop = styled.div`
@@ -131,6 +132,8 @@ const SubmitButton = styled(Button)`
     width: 170px;
     font-family: Heebo;
     font-size: 14px;
+    margin-top: auto;
+    align-self: center;
   }
   &:hover {
     background-color: ${(props) => props.theme.general.main};
