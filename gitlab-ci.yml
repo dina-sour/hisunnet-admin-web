@@ -1,0 +1,39 @@
+stages:
+  - build_react_app
+  - deploy_heroku_dev
+
+#job_1
+BUILD:
+  tags:
+  - docker
+  only:
+    - dev
+  stage: build_react_app
+  image: node:14.15.3
+  script:
+    - npm install --silent
+    - CI=false npm run build
+  artifacts:
+      expire_in: 1 hour
+      paths:
+        - build/
+
+
+#job_2
+DEPLOYMENT_HEROKU_DEV:
+  tags:
+  - docker
+  only:
+    - dev
+  stage: deploy_heroku_dev
+  dependencies:
+    - BUILD
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker build -t hisunnet-admin-web-dev-$CI_COMMIT_SHORT_SHA .
+    - docker login --username=$HEROKU_USERNAME --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    - docker tag hisunnet-admin-web-dev-$CI_COMMIT_SHORT_SHA registry.heroku.com/hisunnet-admin-web-dev/web
+    - docker push registry.heroku.com/hisunnet-admin-web-dev/web
+    - docker run --rm -e HEROKU_API_KEY=$HEROKU_AUTH_TOKEN wingrunr21/alpine-heroku-cli container:release web --app hisunnet-admin-web-dev
