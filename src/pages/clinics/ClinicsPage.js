@@ -103,6 +103,7 @@ const ClinicsPage = (props) => {
     };
     let updatedVaccines = [...vaccines];
     updatedVaccines.unshift(newVaccine);
+    console.log(updatedVaccines);
     setIsVaccinesFormOpen(false);
     setVaccines(updatedVaccines);
     clearForm();
